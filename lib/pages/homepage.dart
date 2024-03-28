@@ -148,7 +148,8 @@ class _HomePageState extends State<HomePage> {
     required Lang? group,
   }) {
     return SizedBox(
-      width: 155,
+      width: 170,
+      height: 60,
       child: ListTile(
         title: titleWidget,
         leading: Radio<Lang>(
