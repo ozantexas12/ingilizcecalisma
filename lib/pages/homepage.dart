@@ -49,11 +49,11 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 langRadioButton(
-                    titleWidget: const Text("Türkçe"),
+                    text: "Türkçe-İngilizce",
                     value: Lang.tr,
                     group: _chooseLang),
                 langRadioButton(
-                    titleWidget: const Text("İngilizce"),
+                    text: "İngilizce-Türkçe",
                     value: Lang.eng,
                     group: _chooseLang),
                 const SizedBox(height:20,),
@@ -143,15 +143,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   SizedBox langRadioButton({
-    required Widget? titleWidget,
+    required String? text,
     required Lang value,
     required Lang? group,
   }) {
     return SizedBox(
-      width: 170,
+      width: 270,
       height: 60,
       child: ListTile(
-        title: titleWidget,
+        title: Text(text!,style: TextStyle(fontFamily: "Carter",fontSize: 15),),
         leading: Radio<Lang>(
           value: value,
           groupValue: group,
