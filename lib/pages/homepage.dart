@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ingilizcecalisma/hızlı/color.dart';
+import 'package:ingilizcecalisma/pages/listpage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -74,32 +75,36 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(
                   height: 20,
                 ),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 20),
-                  alignment: Alignment.center,
-                  height: 55,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(8),
+                InkWell(onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ListsPage(),));
+                },
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    alignment: Alignment.center,
+                    height: 55,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(8),
+                      ),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: <Color>[
+                          Color(Ok.HexaColorConverter("#7D2046")),
+                          Color(Ok.HexaColorConverter("#481175"))
+                        ],
+                        tileMode: TileMode.repeated,
+                      ),
                     ),
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: <Color>[
-                        Color(Ok.HexaColorConverter("#7D2046")),
-                        Color(Ok.HexaColorConverter("#481175"))
-                      ],
-                      tileMode: TileMode.repeated,
+                    child: const Text(
+                      "Listelerim",
+                      style: TextStyle(
+                          fontSize: 28,
+                          color: Colors.white,
+                          fontFamily: "Carter"),
                     ),
-                  ),
-                  child: const Text(
-                    "Listelerim",
-                    style: TextStyle(
-                        fontSize: 28,
-                        color: Colors.white,
-                        fontFamily: "Carter"),
                   ),
                 ),
                 SizedBox(
