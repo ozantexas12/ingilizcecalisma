@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ingilizcecalisma/hızlı/color.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,27 +14,40 @@ enum Lang { tr, eng }
 class _HomePageState extends State<HomePage> {
   Lang? _chooseLang = Lang.eng;
 
+  final GlobalKey<ScaffoldState> _scaffoldKey= GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: Container(
+        width: MediaQuery.of(context).size.width*0.5,
+        color: Colors.white,
+      ),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
         child: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           elevation: 0,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.15,
-                child: const Icon(
-                  Icons.drag_handle,
-                  color: Colors.black,
-                  size: 30,
+                height: MediaQuery.of(context).size.height * 0.05,
+                child: InkWell(
+                  onTap:(){
+                    _scaffoldKey.currentState!.openDrawer();
+                  } ,
+                  child: const FaIcon(
+                    FontAwesomeIcons.bars,
+                    color: Colors.black,
+                    size: 20,
+                  ),
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.15,
+                height: MediaQuery.of(context).size.height * 0.10,
                 child: Image.asset("assets/images/logo_text.png"),
               ),
               SizedBox(
@@ -43,7 +57,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: Container(
+      body: SafeArea(
+        child: Container(
           color: Colors.white,
           child: Center(
             child: Column(
@@ -56,7 +71,9 @@ class _HomePageState extends State<HomePage> {
                     text: "İngilizce-Türkçe",
                     value: Lang.eng,
                     group: _chooseLang),
-                const SizedBox(height:20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 Container(
                   margin: const EdgeInsets.only(bottom: 20),
                   alignment: Alignment.center,
@@ -80,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                   child: const Text(
                     "Listelerim",
                     style: TextStyle(
-                        fontSize: 25,
+                        fontSize: 28,
                         color: Colors.white,
                         fontFamily: "Carter"),
                   ),
@@ -103,12 +120,14 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 
   Container karttikla(BuildContext context,
-      {String? startColor, String? endColor, String? title,String? Icon}) {
+      {String? startColor, String? endColor, String? title}) {
     return Container(
       alignment: Alignment.center,
       height: 200,
@@ -134,7 +153,7 @@ class _HomePageState extends State<HomePage> {
           Text(
             title!,
             style: const TextStyle(
-                fontSize: 25, color: Colors.white, fontFamily: "Carter"),
+                fontSize: 28, color: Colors.white, fontFamily: "Carter"),
             textAlign: TextAlign.center,
           ),
         ],
@@ -151,7 +170,10 @@ class _HomePageState extends State<HomePage> {
       width: 270,
       height: 60,
       child: ListTile(
-        title: Text(text!,style: TextStyle(fontFamily: "Carter",fontSize: 15),),
+        title: Text(
+          text!,
+          style: const TextStyle(fontFamily: "Carter", fontSize: 15),
+        ),
         leading: Radio<Lang>(
           value: value,
           groupValue: group,
