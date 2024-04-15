@@ -10,6 +10,32 @@ class ListeOlustur extends StatefulWidget {
 class _ListeOlusturState extends State<ListeOlustur> {
   final _listname = TextEditingController();
 
+  List<TextEditingController> wordTextEditingList = [];
+  List<Row> wordListField = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    for (int i = 0; i < 10; ++i)
+      wordTextEditingList.add(TextEditingController());
+
+    for (int i = 0; i < 5; ++i) {
+      debugPrint("====>" + (2 * 1).toString() + "   " + (2 * i + 1).toString());
+      wordListField.add(
+        Row(
+          children: [
+            Expanded(child: textFieldBuilder(
+                textEditingController: wordTextEditingList[2 * i])),
+            Expanded(child: textFieldBuilder(
+                textEditingController: wordTextEditingList[2 * i + 1])),
+          ],
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +53,9 @@ class _ListeOlusturState extends State<ListeOlustur> {
                   .size
                   .height * 0.05,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                },
                 child: const Icon(
                   Icons.arrow_back,
                   color: Colors.black,
@@ -62,36 +90,79 @@ class _ListeOlusturState extends State<ListeOlustur> {
           color: Colors.white,
           child: Column(
             children: [
+              textFieldBuilder(
+                  icon: const Icon(
+                    Icons.list,
+                    size: 18,
+                  ),
+                  hintText: "List Adı",
+                  textEditingController: _listname,
+                  textAlign: TextAlign.left),
               Container(
-                height: 40,
-                padding: const EdgeInsets.only(left: 16, right: 16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: Colors.grey.withOpacity(0.25),
+                margin: EdgeInsets.only(
+                  top: 20,
+                  bottom: 10,
                 ),
-                margin: const EdgeInsets.only(left: 16, right: 16, bottom: 4, top: 4),
-                child: TextField(
-                  keyboardType: TextInputType.name,
-                  maxLines: 1,
-                  textAlign: TextAlign.left,
-                  controller: _listname,
-                  style:const TextStyle(
-                    color: Colors.black,
-                    fontFamily: "RobotoLight",
-                    decoration: TextDecoration.none,
-                    fontSize: 18,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      "İngilizce",
+                      style:
+                      TextStyle(fontSize: 18, fontFamily: "RobotoMedium"),
+                    ),
+                    Text(
+                      "Türkçe",
+                      style:
+                      TextStyle(fontSize: 18, fontFamily: "RobotoMedium"),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: wordListField,
                   ),
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.list),
-                      border: InputBorder.none,
-                      hintText: "Liste Adı",
-                      fillColor: Colors.transparent,
-                      isDense:true,
-                  ),
-                ), //Yazı ve metin alanı için kullanılır
+                ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Container textFieldBuilder({int height = 40,
+    @required TextEditingController? textEditingController,
+    Icon? icon,
+    String? hintText,
+    TextAlign textAlign = TextAlign.center}) {
+    return Container(
+      height: height.toDouble(),
+      padding: const EdgeInsets.only(left: 16, right: 16),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: Colors.grey.withOpacity(0.25),
+      ),
+      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 4, top: 4),
+      child: TextField(
+        keyboardType: TextInputType.name,
+        maxLines: 1,
+        textAlign: textAlign,
+        controller: textEditingController,
+        style: const TextStyle(
+          color: Colors.black,
+          fontFamily: "RobotoLight",
+          decoration: TextDecoration.none,
+          fontSize: 18,
+        ),
+        decoration: InputDecoration(
+          icon: icon,
+          border: InputBorder.none,
+          hintText: hintText,
+          fillColor: Colors.transparent,
+          isDense: true,
         ),
       ),
     );
