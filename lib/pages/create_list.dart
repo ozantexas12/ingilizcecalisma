@@ -19,11 +19,12 @@ class _ListeOlusturState extends State<ListeOlustur> {
     // TODO: implement initState
     super.initState();
 
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 10; ++i) {
       wordTextEditingList.add(TextEditingController());
+    }
 
     for (int i = 0; i < 5; ++i) {
-      debugPrint("====>" + (2 * 1).toString() + "   " + (2 * i + 1).toString());
+      debugPrint("====>${2 * 1}   ${2 * i + 1}");
       wordListField.add(
         Row(
           children: [
@@ -93,11 +94,11 @@ class _ListeOlusturState extends State<ListeOlustur> {
                   textEditingController: _listname,
                   textAlign: TextAlign.left),
               Container(
-                margin: EdgeInsets.only(
+                margin: const EdgeInsets.only(
                   top: 20,
                   bottom: 10,
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
@@ -123,9 +124,9 @@ class _ListeOlusturState extends State<ListeOlustur> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  buttons(addRow,Icons.add),
-                  buttons(saveRow,Icons.save),
-                  buttons(deleteRow,Icons.remove),
+                  buttons(addRow, Icons.add),
+                  buttons(saveRow, Icons.save),
+                  buttons(deleteRow, Icons.remove),
                 ],
               )
             ],
@@ -135,9 +136,12 @@ class _ListeOlusturState extends State<ListeOlustur> {
     );
   }
 
-  InkWell buttons(Function() click,IconData icon,) {
+  InkWell buttons(
+    Function() click,
+    IconData icon,
+  ) {
     return InkWell(
-      onTap: ()=>click(),
+      onTap: () => click(),
       child: Container(
         width: 40,
         height: 40,
@@ -154,16 +158,54 @@ class _ListeOlusturState extends State<ListeOlustur> {
     );
   }
 
-  void addRow(){
+  void addRow() {
+    wordTextEditingList.add(TextEditingController());
+    wordTextEditingList.add(TextEditingController());
+    wordListField.add(
+      Row(
+        children: [
+          Expanded(
+              child: textFieldBuilder(
+                  textEditingController:
+                      wordTextEditingList[wordTextEditingList.length - 2])),
+          Expanded(
+              child: textFieldBuilder(
+                  textEditingController:
+                      wordTextEditingList[wordTextEditingList.length - 1])),
+        ],
+      ),
+    );
+    setState(() => wordListField);
+  }
+
+  void saveRow() {
+
+    for(int i=0; i<wordTextEditingList.length/2; ++i){
+      String eng=wordTextEditingList[2*i].text;
+      String tr=wordTextEditingList[2*i+1].text;
+
+      if(eng.isNotEmpty ||  tr.isNotEmpty) {
+        debugPrint("$eng<<<<>>>>$tr");
+      } else {
+        debugPrint("Boş Bırakılan Alan");
+      }
+    }
+
 
   }
-  void saveRow(){
 
+  void deleteRow() {
+    if (wordListField.length != 1) {
+      wordTextEditingList.removeAt(wordTextEditingList.length - 1);
+      wordTextEditingList.removeAt(wordTextEditingList.length - 1);
+
+      wordListField.removeAt(wordListField.length - 1);
+
+      setState(() => wordListField);
+    } else {
+      debugPrint("son 1 Eleman");
+    }
   }
-  void deleteRow(){
-
-  }
-
 
   Container textFieldBuilder(
       {int height = 40,
