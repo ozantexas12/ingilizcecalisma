@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ingilizcecalisma/h%C4%B1zl%C4%B1/color.dart';
 
 class ListeOlustur extends StatefulWidget {
   const ListeOlustur({super.key});
@@ -26,10 +27,12 @@ class _ListeOlusturState extends State<ListeOlustur> {
       wordListField.add(
         Row(
           children: [
-            Expanded(child: textFieldBuilder(
-                textEditingController: wordTextEditingList[2 * i])),
-            Expanded(child: textFieldBuilder(
-                textEditingController: wordTextEditingList[2 * i + 1])),
+            Expanded(
+                child: textFieldBuilder(
+                    textEditingController: wordTextEditingList[2 * i])),
+            Expanded(
+                child: textFieldBuilder(
+                    textEditingController: wordTextEditingList[2 * i + 1])),
           ],
         ),
       );
@@ -48,10 +51,7 @@ class _ListeOlusturState extends State<ListeOlustur> {
           children: [
             Container(
               alignment: Alignment.centerLeft,
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.05,
+              height: MediaQuery.of(context).size.height * 0.05,
               child: InkWell(
                 onTap: () {
                   Navigator.pop(context);
@@ -64,18 +64,12 @@ class _ListeOlusturState extends State<ListeOlustur> {
               ),
             ),
             SizedBox(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.10,
+              height: MediaQuery.of(context).size.height * 0.10,
               child: Image.asset("assets/images/logo_text.png"),
             ),
             Container(
               alignment: Alignment.centerRight,
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.03,
+              height: MediaQuery.of(context).size.height * 0.03,
               child: Image.asset(
                 "assets/images/logo.png",
                 height: 30,
@@ -109,12 +103,12 @@ class _ListeOlusturState extends State<ListeOlustur> {
                     Text(
                       "İngilizce",
                       style:
-                      TextStyle(fontSize: 18, fontFamily: "RobotoMedium"),
+                          TextStyle(fontSize: 18, fontFamily: "RobotoMedium"),
                     ),
                     Text(
                       "Türkçe",
                       style:
-                      TextStyle(fontSize: 18, fontFamily: "RobotoMedium"),
+                          TextStyle(fontSize: 18, fontFamily: "RobotoMedium"),
                     ),
                   ],
                 ),
@@ -126,6 +120,14 @@ class _ListeOlusturState extends State<ListeOlustur> {
                   ),
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  buttons(addRow,Icons.add),
+                  buttons(saveRow,Icons.save),
+                  buttons(deleteRow,Icons.remove),
+                ],
+              )
             ],
           ),
         ),
@@ -133,11 +135,42 @@ class _ListeOlusturState extends State<ListeOlustur> {
     );
   }
 
-  Container textFieldBuilder({int height = 40,
-    @required TextEditingController? textEditingController,
-    Icon? icon,
-    String? hintText,
-    TextAlign textAlign = TextAlign.center}) {
+  InkWell buttons(Function() click,IconData icon,) {
+    return InkWell(
+      onTap: ()=>click(),
+      child: Container(
+        width: 40,
+        height: 40,
+        margin: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+          color: Color(Ok.HexaColorConverter("#DCD2FF")),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          icon,
+          size: 28,
+        ),
+      ),
+    );
+  }
+
+  void addRow(){
+
+  }
+  void saveRow(){
+
+  }
+  void deleteRow(){
+
+  }
+
+
+  Container textFieldBuilder(
+      {int height = 40,
+      @required TextEditingController? textEditingController,
+      Icon? icon,
+      String? hintText,
+      TextAlign textAlign = TextAlign.center}) {
     return Container(
       height: height.toDouble(),
       padding: const EdgeInsets.only(left: 16, right: 16),
