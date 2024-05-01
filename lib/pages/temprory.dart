@@ -21,7 +21,7 @@ class _TemproryPageState extends State<TemproryPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Container(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ingilizcecalisma/h%C4%B1zl%C4%B1/app_bar.dart';
 import 'package:ingilizcecalisma/h%C4%B1zl%C4%B1/color.dart';
 import 'package:ingilizcecalisma/pages/create_list.dart';
 
@@ -13,44 +14,26 @@ class _ListsPageState extends State<ListsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              height: MediaQuery.of(context).size.height * 0.05,
-              child: InkWell(
-                onTap: () {},
-                child: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
-                  size: 20,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.10,
-              child: Image.asset("assets/images/lists.png"),
-            ),
-            Container(
-              alignment: Alignment.centerRight,
-              height: MediaQuery.of(context).size.height * 0.03,
-              child: Image.asset(
-                "assets/images/logo.png",
-                height: 30,
-                width: 35,
-              ), //
-            ),
-          ],
-        ),
-      ),
+      appBar: appBar(context,
+          left: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+            size: 20,
+          ),
+          center: Image.asset(
+            "assets/images/lists.png",
+            alignment: Alignment.centerRight,
+          ),
+          right: Image.asset(
+            "assets/images/logo.png",
+            height: 30,
+            width: 35,
+          ),
+          leftClick: () => {Navigator.pop(context)}),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> const ListeOlustur()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const ListeOlustur()));
         },
         backgroundColor: Colors.red.withOpacity(0.6),
         child: const Icon(Icons.add),

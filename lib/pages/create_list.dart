@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ingilizcecalisma/h%C4%B1zl%C4%B1/app_bar.dart';
 import 'package:ingilizcecalisma/h%C4%B1zl%C4%B1/color.dart';
 
 class ListeOlustur extends StatefulWidget {
@@ -43,42 +44,20 @@ class _ListeOlusturState extends State<ListeOlustur> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              height: MediaQuery.of(context).size.height * 0.05,
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
-                  size: 20,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.10,
-              child: Image.asset("assets/images/logo_text.png"),
-            ),
-            Container(
-              alignment: Alignment.centerRight,
-              height: MediaQuery.of(context).size.height * 0.03,
-              child: Image.asset(
-                "assets/images/logo.png",
-                height: 30,
-                width: 35,
-              ), //
-            ),
-          ],
+      appBar: appBar(
+        context,
+        left: const Icon(
+          Icons.arrow_back,
+          color: Colors.black,
+          size: 20,
         ),
+        center: Image.asset("assets/images/logo_text.png"),
+        right: Image.asset(
+          "assets/images/logo.png",
+          height: 30,
+          width: 35,
+        ),
+        leftClick: ()=>Navigator.pop(context)
       ),
       body: SafeArea(
         child: Container(
@@ -179,19 +158,16 @@ class _ListeOlusturState extends State<ListeOlustur> {
   }
 
   void saveRow() {
+    for (int i = 0; i < wordTextEditingList.length / 2; ++i) {
+      String eng = wordTextEditingList[2 * i].text;
+      String tr = wordTextEditingList[2 * i + 1].text;
 
-    for(int i=0; i<wordTextEditingList.length/2; ++i){
-      String eng=wordTextEditingList[2*i].text;
-      String tr=wordTextEditingList[2*i+1].text;
-
-      if(eng.isNotEmpty ||  tr.isNotEmpty) {
+      if (eng.isNotEmpty || tr.isNotEmpty) {
         debugPrint("$eng<<<<>>>>$tr");
       } else {
         debugPrint("Boş Bırakılan Alan");
       }
     }
-
-
   }
 
   void deleteRow() {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ingilizcecalisma/h%C4%B1zl%C4%B1/app_bar.dart';
 import 'package:ingilizcecalisma/hızlı/color.dart';
 import 'package:ingilizcecalisma/pages/listpage.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,8 +19,8 @@ class _HomePageState extends State<HomePage> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  PackageInfo ?packageInfo;
-  String version="";
+  PackageInfo? packageInfo;
+  String version = "";
 
   @override
   void initState() {
@@ -29,11 +29,10 @@ class _HomePageState extends State<HomePage> {
     packageInfoInit();
   }
 
-
   void packageInfoInit() async {
     packageInfo = await PackageInfo.fromPlatform();
     setState(() {
-      version=packageInfo!.version;
+      version = packageInfo!.version;
     });
   }
 
@@ -43,17 +42,17 @@ class _HomePageState extends State<HomePage> {
       key: _scaffoldKey,
       drawer: SafeArea(
         child: Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width * 0.5,
+          width: MediaQuery.of(context).size.width * 0.5,
           color: Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 children: [
-                  Image.asset("assets/images/logo.png", height: 80,),
+                  Image.asset(
+                    "assets/images/logo.png",
+                    height: 80,
+                  ),
                   const Text(
                     "Easy",
                     style: TextStyle(fontSize: 25, fontFamily: "RobotoRegular"),
@@ -63,17 +62,15 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(fontSize: 16, fontFamily: "RobotoRegular"),
                   ),
                   SizedBox(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.30,
-                    child: Divider(),
+                    width: MediaQuery.of(context).size.width * 0.30,
+                    child: const Divider(),
                   ),
-                  Container(margin: EdgeInsets.only(top: 50, left: 8, right: 8),
+                  Container(
+                    margin: const EdgeInsets.only(top: 50, left: 8, right: 8),
                     child: const Text(
                       "Burası dolucak.",
-                      style: TextStyle(
-                          fontSize: 16, fontFamily: "RobotoRegular"),
+                      style:
+                          TextStyle(fontSize: 16, fontFamily: "RobotoRegular"),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -81,7 +78,8 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {},
                     child: Text(
                       "Tıkla",
-                      style: TextStyle(fontSize: 16,
+                      style: TextStyle(
+                          fontSize: 16,
                           fontFamily: "RobotoRegular",
                           color: Color(Ok.HexaColorConverter("#0A588D"))),
                       textAlign: TextAlign.center,
@@ -92,59 +90,23 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "v"+version+"\ndeneme@gmail.com",
-                  style: TextStyle(fontSize: 16,
+                  "v$version\ndeneme@gmail.com",
+                  style: TextStyle(
+                      fontSize: 16,
                       fontFamily: "RobotoRegular",
                       color: Color(Ok.HexaColorConverter("#0A588D"))),
                   textAlign: TextAlign.center,
                 ),
               ),
-
             ],
           ),
         ),
       ),
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.05,
-                child: InkWell(
-                  onTap: () {
-                    _scaffoldKey.currentState!.openDrawer();
-                  },
-                  child: const FaIcon(
-                    FontAwesomeIcons.bars,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.10,
-                child: Image.asset("assets/images/logo_text.png"),
-              ),
-              SizedBox(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.15,
-              ),
-            ],
-          ),
-        ),
+      appBar: appBar(
+        context,
+        left: const FaIcon(FontAwesomeIcons.bars, color: Colors.black, size: 20),
+        center: Image.asset("assets/images/logo_text.png"),
+        leftClick: ()=>{_scaffoldKey.currentState!.openDrawer()}
       ),
       body: SafeArea(
         child: Container(
@@ -175,10 +137,7 @@ class _HomePageState extends State<HomePage> {
                     margin: const EdgeInsets.only(bottom: 20),
                     alignment: Alignment.center,
                     height: 55,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.8,
                     decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: const BorderRadius.all(
@@ -204,10 +163,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.8,
+                  width: MediaQuery.of(context).size.width * 0.8,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
