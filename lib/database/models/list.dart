@@ -1,9 +1,9 @@
-final String tableNameLists = "List";
+const String tableNameLists = "List";
 
 class ListsTableFields {
   static final List<String> values = [id, name];
-  static final id = "id";
-  static final name = "name";
+  static const id = "id";
+  static const name = "name";
 }
 
 class Lists {
