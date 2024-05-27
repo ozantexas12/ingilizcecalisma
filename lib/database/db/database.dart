@@ -77,7 +77,34 @@ class DatabaseProvider {
     return result.map((json) => Lists.fromJson(json)).toList();
   }
 
+  Future<int> updateWords(Word word) async {
+    final db = await instance.database;
+    return db.update(tableNameWords, word.toJson(),where: '${WordTableFields.id}= ?',whereArgs:[word.id] );
+  }
 
+  Future<int>updateLists(Lists lists) async {
+    final db=await instance.database;
+    return db.update(tableNameLists, lists.toJson(),where: '${ListsTableFields.id}=?',whereArgs: [lists.id]);
+  }
+
+  Future<int> deleteWord(int id) async{
+    final db=await instance.database;
+    return db.delete(tableNameWords,where: '${WordTableFields.id}=?',whereArgs: [id]);
+  }
+  Future<int> deleteList(int id) async{
+    final db=await instance.database;
+    int result =await db.delete(tableNameLists,where: '${ListsTableFields.id}=?',whereArgs:[id] );
+    if(result==1){
+      db.delete(tableNameWords,where: '${WordTableFields.list_id}=?',whereArgs:[id] );
+    }
+    return result;
+  }
+
+
+  Future close() async{
+    final db= await instance.database;
+    db.close(); 
+  }
 
 
 }
