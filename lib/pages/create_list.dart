@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ingilizcecalisma/database/models/list.dart';
 import 'package:ingilizcecalisma/h%C4%B1zl%C4%B1/app_bar.dart';
 import 'package:ingilizcecalisma/h%C4%B1zl%C4%B1/color.dart';
+import 'package:ingilizcecalisma/database/db/database.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import '../database/models/words.dart';
 
 class ListeOlustur extends StatefulWidget {
   const ListeOlustur({super.key});
@@ -17,7 +22,6 @@ class _ListeOlusturState extends State<ListeOlustur> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     for (int i = 0; i < 10; ++i) {
@@ -44,21 +48,19 @@ class _ListeOlusturState extends State<ListeOlustur> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(
-        context,
-        left: const Icon(
-          Icons.arrow_back,
-          color: Colors.black,
-          size: 20,
-        ),
-        center: Image.asset("assets/images/logo_text.png"),
-        right: Image.asset(
-          "assets/images/logo.png",
-          height: 30,
-          width: 35,
-        ),
-        leftClick: ()=>Navigator.pop(context)
-      ),
+      appBar: appBar(context,
+          left: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+            size: 20,
+          ),
+          center: Image.asset("assets/images/logo_text.png"),
+          right: Image.asset(
+            "assets/images/logo.png",
+            height: 30,
+            width: 35,
+          ),
+          leftClick: () => Navigator.pop(context)),
       body: SafeArea(
         child: Container(
           color: Colors.white,
@@ -154,38 +156,76 @@ class _ListeOlusturState extends State<ListeOlustur> {
         ],
       ),
     );
-    setState(() => wordListField);
+    setState(() {});
   }
 
-  void saveRow() {
+  void saveRow() async {
+    int counter = 0;
+    bool empty = true;
+
     for (int i = 0; i < wordTextEditingList.length / 2; ++i) {
       String eng = wordTextEditingList[2 * i].text;
       String tr = wordTextEditingList[2 * i + 1].text;
 
       if (eng.isNotEmpty || tr.isNotEmpty) {
-        debugPrint("$eng<<<<>>>>$tr");
-      } else {
-        debugPrint("Boş Bırakılan Alan");
+        counter++;
+        empty = false;
       }
+    }
+    if (counter >= 4) {
+      if (!empty) {
+        Lists addedList = await DatabaseProvider.instance
+            .insertList(Lists(name: _listname.text));
+
+        for (int i = 0; i < wordTextEditingList.length / 2; ++i) {
+          String eng = wordTextEditingList[2 * i].text;
+          String tr = wordTextEditingList[2 * i + 1].text;
+
+          Word word = await DatabaseProvider.instance.insertWord(Word(
+              list_id: addedList.id,
+              word_eng: eng,
+              word_tr: tr,
+              status: false));
+          debugPrint(
+              "${word.id} ${word.list_id} ${word.word_eng} ${word.word_tr} ${word.status}");
+        }
+        debugPrint("Liste oluşturuldu.");
+        _listname.clear();
+        for (var element in wordTextEditingList) {
+          element.clear();
+        }
+      } else {
+        debugPrint("Boş alanları doldurun");
+      }
+    } else {
+      Fluttertoast.showToast(
+          msg: "Boş alanları doldurun",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0
+      );
     }
   }
 
   void deleteRow() {
-    if (wordListField.length != 1) {
+    if (wordListField.length != 4) {
       wordTextEditingList.removeAt(wordTextEditingList.length - 1);
       wordTextEditingList.removeAt(wordTextEditingList.length - 1);
 
       wordListField.removeAt(wordListField.length - 1);
 
-      setState(() => wordListField);
+      setState(() {});
     } else {
-      debugPrint("son 1 Eleman");
+      debugPrint("Son 1 eleman");
     }
   }
 
   Container textFieldBuilder(
       {int height = 40,
-      @required TextEditingController? textEditingController,
+      required TextEditingController? textEditingController,
       Icon? icon,
       String? hintText,
       TextAlign textAlign = TextAlign.center}) {
