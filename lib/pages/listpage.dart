@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ingilizcecalisma/h%C4%B1zl%C4%B1/app_bar.dart';
 import 'package:ingilizcecalisma/h%C4%B1zl%C4%B1/color.dart';
 import 'package:ingilizcecalisma/pages/create_list.dart';
+import 'package:ingilizcecalisma/database/db/database.dart';
 
 class ListsPage extends StatefulWidget {
   const ListsPage({super.key});
@@ -11,6 +12,24 @@ class ListsPage extends StatefulWidget {
 }
 
 class _ListsPageState extends State<ListsPage> {
+
+  List<Map<String,Object?>> _list=[];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getList();
+  }
+
+  void getList() async{
+    _list=await DB.instance.readListsAll();
+    setState(() {
+      _list;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,9 +58,19 @@ class _ListsPageState extends State<ListsPage> {
         child: const Icon(Icons.add),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            Center(
+        child: ListView.builder(itemBuilder: (context,index){
+          return listItem(_list[index]['list_id']as int, listname: _list[index]['name'].toString(), sumWords: _list[index]['sum_words'].toString(), sumunLearned: _list[index]['sum_unlearned'].toString());
+        },itemCount: _list.length,)
+      ),
+    );
+  }
+
+  InkWell listItem(int id,{@required String ?listname,@required String ?sumWords,@required String ?sumunLearned}) {
+    return InkWell(
+      onTap: (){
+        debugPrint(id.toString());
+      },
+      child: Center(
               child: SizedBox(
                 width: double.infinity,
                 child: Card(
@@ -58,54 +87,55 @@ class _ListsPageState extends State<ListsPage> {
                     children: [
                       Container(
                         margin: const EdgeInsets.only(left: 15),
-                        child: const Text(
-                          "Liste Adı",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontFamily: "RobotoMedium"),
+                        child: Text(
+                          listname!,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontFamily: "RobotoMedium",
+                          ),
                         ),
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 30),
-                        child: const Text(
-                          "200 Terim ",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontFamily: "RobotoRegular"),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(
-                          left: 30,
-                        ),
-                        child: const Text(
-                          "100 Öğrenildi",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontFamily: "RobotoRegular"),
+                        child: Text(
+                          "${sumWords!} terim",
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontFamily: "RobotoRegular",
+                          ),
                         ),
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 30),
-                        child: const Text(
-                          "100 Öğrenilmedi",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontFamily: "RobotoRegular"),
+                        child: Text(
+                          "${(int.tryParse(sumWords) ?? 0) - (int.tryParse(sumunLearned ?? '0') ?? 0)} öğrenildi",
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontFamily: "RobotoRegular",
+                          ),
                         ),
                       ),
+      
+                      Container(
+                        margin: const EdgeInsets.only(left: 30),
+                        child: Text(
+                          sumunLearned!,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontFamily: "RobotoRegular",
+                          ),
+                        ),
+                      ),
+      
                     ],
                   ),
                 ),
               ),
-            )
-          ],
-        ),
-      ),
+            ),
     );
   }
 }

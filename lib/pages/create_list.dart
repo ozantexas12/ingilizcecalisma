@@ -3,7 +3,8 @@ import 'package:ingilizcecalisma/database/models/list.dart';
 import 'package:ingilizcecalisma/h%C4%B1zl%C4%B1/app_bar.dart';
 import 'package:ingilizcecalisma/h%C4%B1zl%C4%B1/color.dart';
 import 'package:ingilizcecalisma/database/db/database.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ingilizcecalisma/h%C4%B1zl%C4%B1/toast.dart';
+
 
 import '../database/models/words.dart';
 
@@ -174,14 +175,14 @@ class _ListeOlusturState extends State<ListeOlustur> {
     }
     if (counter >= 4) {
       if (!empty) {
-        Lists addedList = await DatabaseProvider.instance
+        Lists addedList = await DB.instance
             .insertList(Lists(name: _listname.text));
 
         for (int i = 0; i < wordTextEditingList.length / 2; ++i) {
           String eng = wordTextEditingList[2 * i].text;
           String tr = wordTextEditingList[2 * i + 1].text;
 
-          Word word = await DatabaseProvider.instance.insertWord(Word(
+          Word word = await DB.instance.insertWord(Word(
               list_id: addedList.id,
               word_eng: eng,
               word_tr: tr,
@@ -189,26 +190,19 @@ class _ListeOlusturState extends State<ListeOlustur> {
           debugPrint(
               "${word.id} ${word.list_id} ${word.word_eng} ${word.word_tr} ${word.status}");
         }
-        debugPrint("Liste oluşturuldu.");
+        ToastMessage("Liste oluşturuldu.");
         _listname.clear();
         for (var element in wordTextEditingList) {
           element.clear();
         }
       } else {
-        debugPrint("Boş alanları doldurun");
+       ToastMessage("Boş alanları doldurun");
       }
     } else {
-      Fluttertoast.showToast(
-          msg: "Boş alanları doldurun",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.white,
-          textColor: Colors.black,
-          fontSize: 16.0
-      );
+      ToastMessage("En az 4 çiftin dolu olması gerekli!!!");
     }
   }
+
 
   void deleteRow() {
     if (wordListField.length != 4) {
@@ -219,7 +213,7 @@ class _ListeOlusturState extends State<ListeOlustur> {
 
       setState(() {});
     } else {
-      debugPrint("Son 1 eleman");
+      ToastMessage("Minimum 4 çift gereklidir!!!");
     }
   }
 
